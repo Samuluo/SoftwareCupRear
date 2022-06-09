@@ -47,8 +47,8 @@ demo:
 
 tx:
   sms:
-    secretId: AKID97pGQLzMSHp78yYrte8LHvJQGp78sLXS
-    secretKey: sTnreAPM2RZQ0JL6bokQqzrSmqc7LJ0P
+    secretId:
+    secretKey:
     appId: 1400638751
     templateId: 1316740
     smsSign: 水里的铁化亚铁个人网

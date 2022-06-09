@@ -24,8 +24,8 @@ import java.io.IOException;
 public class QiniuCloudUtil {
 
     // 设置需要操作的账号的AK和SK
-    private static final String ACCESS_KEY = "-kf0964lJD-UhB6uOYoWK6gSC4UW-cIoAEbdRAT8";
-    private static final String SECRET_KEY = "5Q0pkOlgpKaDAN5QGEyFinSQxO0_9nMVq54p3gnJ";
+    private static final String ACCESS_KEY = "";
+    private static final String SECRET_KEY = "";
 
     // 要上传的空间
     private static final String bucketname = "wdnmdqq";
