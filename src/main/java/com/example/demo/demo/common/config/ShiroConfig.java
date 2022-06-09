@@ -1,5 +1,5 @@
 package com.example.demo.demo.common.config;
-/*
+
 import com.example.demo.demo.shiro.JwtFilter;
 import com.example.demo.demo.shiro.AccountRealm;
 import com.example.demo.demo.shiro.JwtFilter;
@@ -78,4 +78,5 @@ public class ShiroConfig {
         return shiroFilter;
     }
 }
-*/
+
+

@@ -1,4 +1,3 @@
-/*
 package com.example.demo.demo.shiro;
 
 import org.apache.shiro.authc.AuthenticationToken;
@@ -19,4 +18,3 @@ public class JwtToken implements AuthenticationToken {
         return token;
     }
 }
-*/

@@ -1,4 +1,5 @@
 package com.example.demo.demo.service.impl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -13,6 +14,7 @@ import java.io.InputStreamReader;
  * @author hjh
  * @since 2022-05-31
  */
+@Slf4j
 @Service
 public class AIService {
     public void changeDetection(String path1, String path2, String result_path){

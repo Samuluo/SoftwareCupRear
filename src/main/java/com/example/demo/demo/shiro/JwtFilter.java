@@ -1,4 +1,3 @@
-/*
 package com.example.demo.demo.shiro;
 
 import cn.hutool.json.JSONUtil;
@@ -21,11 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-*/
 /**
  * @author Peter Hai
- *//*
-
+*/
 @Component
 public class JwtFilter extends AuthenticatingFilter {
     @Autowired
@@ -40,8 +37,7 @@ public class JwtFilter extends AuthenticatingFilter {
         }
         return new JwtToken(jwt);
     }
-    */
-/**跨域处理*//*
+/*跨域处理*/
 
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
@@ -96,4 +92,3 @@ public class JwtFilter extends AuthenticatingFilter {
 
     }
 }
-*/

@@ -1,13 +1,11 @@
-/*
 package com.example.demo.demo.shiro.util;
 
 import com.example.demo.demo.shiro.AccountProfile;
 import org.apache.shiro.SecurityUtils;
 
-*/
 /**
  * @author Peter Hai
- *//*
+ */
 
 public class ShiroUtil {
 
@@ -16,4 +14,3 @@ public class ShiroUtil {
     }
 
 }
-*/

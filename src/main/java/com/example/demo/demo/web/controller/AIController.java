@@ -20,7 +20,7 @@ import java.util.UUID;
  * @author Peter Hai
  */
 @RestController
-@RequestMapping("/changeDetection")
+@RequestMapping("/ai")
 @Slf4j
 public class AIController {
     @Autowired
@@ -44,7 +44,7 @@ public class AIController {
      */
 
     @ApiOperation(value = "文件上传", notes = "文件上传")
-    @RequestMapping(value = "/predict", method = RequestMethod.POST)
+    @RequestMapping(value = "/changeDetection", method = RequestMethod.POST)
     public JsonResponse upload(@RequestParam("file1") MultipartFile file1,
                                @RequestParam("file2") MultipartFile file2,
                                HttpServletRequest request) throws Exception {
@@ -100,7 +100,7 @@ public class AIController {
      * @throws Exception
      */
     @ApiOperation(value = "文件上传", notes = "文件上传")
-    @RequestMapping(value = "/objectDetection", method = RequestMethod.POST)
+    @RequestMapping(value = "/terrainClassification", method = RequestMethod.POST)
     public JsonResponse upload3(@RequestParam("file") MultipartFile file,
                                 HttpServletRequest request) throws Exception {
         JsonResponse result = new JsonResponse();

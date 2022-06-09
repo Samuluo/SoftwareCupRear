@@ -1,4 +1,3 @@
-/*
 package com.example.demo.demo.shiro.util;
 
 import io.jsonwebtoken.Claims;
@@ -11,11 +10,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-*/
 /**
  * jwt工具类
  * @author Peter Hai
- *//*
+ */
 
 @Slf4j
 @Data
@@ -27,10 +25,9 @@ public class JwtUtils {
     private long expire;
     private String header;
 
-    */
 /**
      * 生成jwt token
-     *//*
+     */
 
     public String generateToken(long userId) {
         Date nowDate = new Date();
@@ -58,14 +55,12 @@ public class JwtUtils {
         }
     }
 
-    */
 /**
      * token是否过期
      * @return  true：过期
-     *//*
+     */
 
     public boolean isTokenExpired(Date expiration) {
         return expiration.before(new Date());
     }
 }
-*/
