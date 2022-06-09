@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>233</title>
+</head>
+<body>
+<!--上传文件-->
+<form method="post" action="http://127.0.0.1:8081/file/uploadImg" enctype="multipart/form-data">
+    <h3>上传文件</h3>
+    <input type="file" name="file">
+    <button type="submit">提交</button>
+</form>
+
+
+<!--变化检测-->
+<form method="post" action="http://127.0.0.1:8081/changeDetection/upload" enctype="multipart/form-data">
+    <h3>变化检测</h3>
+    <input type="file" name="file1">
+    <input type="file" name="file2">
+    <button type="submit">提交</button>
+</form>
+
+<!--地物分类-->
+<form method="post" action="http://127.0.0.1:8081/terrainClassification" enctype="multipart/form-data">
+    <h3>地物分类</h3>
+    <input type="file" name="photo">
+    <button type="submit">提交</button>
+</form>
+
+<!--目标提取-->
+<form method="post" action="http://127.0.0.1:8081/objectExtraction" enctype="multipart/form-data">
+    <h3>目标提取</h3>
+    <input type="file" name="photo">
+    <button type="submit">提交</button>
+</form>
+
+<!--目标检测-->
+<form method="post" action="http://127.0.0.1:8081/objectDetection" enctype="multipart/form-data">
+    <h3>目标检测</h3>
+    <input type="file" name="photo">
+    <button type="submit">提交</button>
+</form>
+</body>
+</html>

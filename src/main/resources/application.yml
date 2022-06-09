@@ -1,0 +1,56 @@
+# DataSource Config
+spring:
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+      enabled: true
+  application:
+    name: ware-jwt-token
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://101.42.150.249:3306/china-software?useUnicode=true&characterEncoding=utf8
+    username: China-Software
+    password: RRMcFYFsrGt768jW
+
+
+  hikari:
+    max-lifetime: 50000
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    max-idle: 8
+    min-idle: 0
+    max-active: 8
+    maxwait: -1
+    timeout: 0
+    isRedisCache: 1  #是否使用redis缓存
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**Mapper.xml
+#example:
+#  jwt:
+#    secret: f4e2e52034348f86b67cde581c0f9eb5
+#    # token有效时长，7天，单位秒
+#    expire: 604800
+#    header: token
+server:
+  port: 8081
+demo:
+  jwt:
+    # 加密密钥
+    secret: f4e2e52034348f86b67cde581c0f9eb5
+    # token有效时长
+    expire: 604800
+    # header 名称
+    header: token
+
+tx:
+  sms:
+    secretId: AKID97pGQLzMSHp78yYrte8LHvJQGp78sLXS
+    secretKey: sTnreAPM2RZQ0JL6bokQqzrSmqc7LJ0P
+    appId: 1400638751
+    templateId: 1316740
+    smsSign: 水里的铁化亚铁个人网
+    smsEffectiveTime: 5
+
