@@ -67,6 +67,13 @@ public class AccountController {
         return JsonResponse.success(null);
     }
 
-
+    /**
+     * 注册
+     */
+    @PostMapping("/register")
+    public JsonResponse register(@RequestBody User user) {
+        userService.save(user);
+        return JsonResponse.success(null);
+    }
 }
 
