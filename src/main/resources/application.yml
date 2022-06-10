@@ -54,3 +54,7 @@ tx:
     smsSign: 水里的铁化亚铁个人网
     smsEffectiveTime: 5
 
+
+python-exe-path: D:/anaconda3/python.exe
+
+
