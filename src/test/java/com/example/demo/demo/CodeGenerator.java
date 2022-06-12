@@ -183,7 +183,7 @@ public class CodeGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setRestControllerStyle(true);
-        strategy.setSuperControllerClass("com.example.demo.demo.common.BaseController");
+        strategy.setSuperControllerClass("com.example.demo.common.BaseController");
         strategy.setEntityLombokModel(true);//启用lombok注解
         strategy.setChainModel(true);//启用lombok链式注解
         strategy.setInclude("user");

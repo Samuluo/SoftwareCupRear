@@ -10,6 +10,7 @@
         <result column="status" property="status" />
         <result column="avatar" property="avatar" />
         <result column="phone" property="phone" />
+        <result column="verity" property="verity" />
     </resultMap>
 
 </mapper>

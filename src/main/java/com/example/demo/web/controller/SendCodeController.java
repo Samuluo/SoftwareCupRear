@@ -7,10 +7,8 @@ import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
 
 import java.util.*;
 
@@ -26,7 +24,6 @@ public class SendCodeController {
 
     @Autowired
     private UserService userService;
-
     /**
      * 发送验证码
      * */
@@ -49,11 +46,13 @@ public class SendCodeController {
                 Vcode = code;
                 SmsParams smsParams = new SmsParams(po, code);
                 TxCloudSmsUtil send = new TxCloudSmsUtil();
-                send.sendSms(smsParams);
-                Map<String,Object> map = new HashMap<>();
-                map.put("code",code);
-                map.put("user",user);
-                return JsonResponse.success(map);
+                //send.sendSms(smsParams);
+                String codeKey = "VerifyCode"+memPhone+":code";
+                System.out.println(code);
+                Jedis jedis = new Jedis("127.0.0.1",6379);
+                jedis.setex(codeKey,300,code);
+                jedis.close();
+                return JsonResponse.success("发送成功！");
             }
         }
         return JsonResponse.failure("手机号未注册！");
@@ -77,11 +76,16 @@ public class SendCodeController {
         Vcode = code;
         SmsParams smsParams = new SmsParams(po, code);
         TxCloudSmsUtil send = new TxCloudSmsUtil();
-        send.sendSms(smsParams);
-        Map<String,Object> map = new HashMap<>();
-        map.put("code",code);
-        return JsonResponse.success(map);
+        //send.sendSms(smsParams);
+        String codeKey = "VerifyCode"+memPhone+":code";
+        System.out.println(code);
+        Jedis jedis = new Jedis("127.0.0.1",6379);
+        jedis.setex(codeKey,300,code);
+        jedis.close();
+        return JsonResponse.success("发送成功！");
 
     }
+
+
 }
 

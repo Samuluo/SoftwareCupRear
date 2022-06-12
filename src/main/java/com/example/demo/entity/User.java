@@ -38,6 +38,7 @@ public class User extends Model<User> {
 
     private String phone;
 
+    private String verity;
 
     @Override
     protected Serializable pkVal() {

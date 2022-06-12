@@ -16,8 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+
 /**
  * @author Peter Hai
  */
@@ -40,25 +44,52 @@ public class AccountController {
         if (bindingResult.hasErrors()) {
             return JsonResponse.failure(bindingResult.getFieldError().getDefaultMessage());
         }
-        User user = userService.getOne(new QueryWrapper<User>().eq("name",loginDto.getName()));
+        User user = userService.getOne(new QueryWrapper<User>().eq("phone",loginDto.getName()));
+        if(user == null) {
+            user = userService.getOne(new QueryWrapper<User>().eq("name",loginDto.getName()));
+        }
+        Assert.notNull(user,"用户不存在");
         //对象封装操作类
-            Assert.notNull(user,"用户不存在");
-            if (!(SecureUtil.md5(user.getPassword())).equals(SecureUtil.md5(loginDto.getPassword()))){
+        if (!(SecureUtil.md5(user.getPassword())).equals(SecureUtil.md5(loginDto.getPassword()))){
             return JsonResponse.failure("密码不正确");
-            }
+        }
         String jwt = jwtUtils.generateToken(user.getId());
-            response.addHeader("Authorization",jwt);
-            response.setHeader("Access- -Expose-Headers",jwt);
-            return JsonResponse.success(MapUtil.builder()
-                    .put("id",user.getId())
-                    .put("name",user.getName())
-                    .put("avatar",user.getAvatar())
-                    .put("status",user.getStatus())
-                    .put("token",jwt)
-                    .map()
-            );
-    }
+        response.addHeader("Authorization",jwt);
+        response.setHeader("Access- -Expose-Headers",jwt);
+        return JsonResponse.success(MapUtil.builder()
+                .put("id",user.getId())
+                .put("name",user.getName())
+                .put("avatar",user.getAvatar())
+                .put("status",user.getStatus())
+                .put("token",jwt)
+                .map()
+        );
 
+    }
+    @PostMapping("/login2")
+    public JsonResponse login2(@RequestBody User us, HttpServletResponse response, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JsonResponse.failure(bindingResult.getFieldError().getDefaultMessage());
+        }
+        User user = userService.getOne(new QueryWrapper<User>().eq("phone",us.getPhone()));
+        //对象封装操作类
+        Assert.notNull(user,"用户不存在");
+
+        if (!getRedisCode(us.getPhone(),us.getVerity())){
+            return JsonResponse.failure("验证不正确或已经失效");
+        }
+        String jwt = jwtUtils.generateToken(user.getId());
+        response.addHeader("Authorization",jwt);
+        response.setHeader("Access- -Expose-Headers",jwt);
+        return JsonResponse.success(MapUtil.builder()
+                .put("id",user.getId())
+                .put("name",user.getName())
+                .put("avatar",user.getAvatar())
+                .put("status",user.getStatus())
+                .put("token",jwt)
+                .map()
+        );
+    }
     @RequiresAuthentication
     @GetMapping("/logout")
     public JsonResponse logout() {
@@ -70,9 +101,47 @@ public class AccountController {
      * 注册
      */
     @PostMapping("/register")
-    public JsonResponse register(@RequestBody User user) {
-        userService.save(user);
-        return JsonResponse.success(null);
+    public JsonResponse register(@RequestBody User user,@RequestParam(value = "code")String code) {
+        if(getRedisCode(user.getPhone(),code)) {
+            userService.save(user);
+            return JsonResponse.success("注册成功！");
+        }
+        return JsonResponse.success("验证码错误");
+    }
+
+    /**
+     * 注册时检验用户名是否重复
+     */
+    @GetMapping("/isExist")
+    public boolean isExist(@RequestParam(value = "name")String name) {
+        if(userService.getOne(new QueryWrapper<User>().eq("name",name))!=null){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 校验验证码
+     */
+    public boolean getRedisCode(String phone,String code) {
+        //从redis获取验证码
+        Jedis jedis = new Jedis("127.0.0.1",6379);
+        //验证码key
+        String codeKey = "VerifyCode"+phone+":code";
+        try {
+            String redisCode = jedis.get(codeKey);
+            //判断
+            if(redisCode.equals(code)) {
+                jedis.close();
+                return true;
+            }else {
+                jedis.close();
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+
     }
 }
 
