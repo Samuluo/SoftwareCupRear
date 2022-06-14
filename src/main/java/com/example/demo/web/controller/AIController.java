@@ -1,5 +1,6 @@
 package com.example.demo.web.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.demo.common.JsonResponse;
 import com.example.demo.common.QiniuCloudUtil;
 import com.example.demo.service.impl.AIService;
@@ -8,12 +9,15 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -26,8 +30,11 @@ public class AIController {
     @Autowired
     private AIService aiService;
     @Autowired
-    protected FileService fileService;
-    protected ResourceLoader resourceLoader;
+    private FileService fileService;
+    private ResourceLoader resourceLoader;
+
+    @Value("${runtime-environment}")
+    private String runtimeEnvironment;
 
     public AIController(FileService fileService, ResourceLoader resourceLoader) {
         this.fileService = fileService;
@@ -49,6 +56,13 @@ public class AIController {
                                @RequestParam("file2") MultipartFile file2,
                                HttpServletRequest request) throws Exception {
         JsonResponse result = new JsonResponse();
+        //如果为测试环境，返回示例图片
+        if (runtimeEnvironment.equals("test")) {
+            result.setCode(200);
+            result.setMessage("示例图片");
+            result.setData("https://cdn.bewcf.info/softwareCup/0094ae4f-1cf8-4681-84a8-17a56a8ccdf6");
+            return result;
+        }
         //本地上传
         String path1 = fileService.upload(file1, "changeDetection");
         String path2 = fileService.upload(file2, "changeDetection");
@@ -77,6 +91,18 @@ public class AIController {
     public JsonResponse objectDetection(@RequestParam("file") MultipartFile file,
                                HttpServletRequest request) throws Exception {
         JsonResponse result = new JsonResponse();
+        //如果为测试环境，返回示例字典
+        if (runtimeEnvironment.equals("test")) {
+            result.setCode(200);
+            result.setMessage("示例字典");
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("category_id", 0);
+            jsonObject.put("category", "playground");
+            jsonObject.put("bbox", new Double[]{306.23284912109375, 273.0307312011719, 177.12255859375, 410.4651184082031});
+            jsonObject.put("score", 0.7360728979110718);
+            result.setData(jsonObject);
+            return result;
+        }
         //本地上传
         String path = fileService.upload(file, "objectDetection");
         String output = aiService.objectDetection(path);
@@ -98,6 +124,13 @@ public class AIController {
     public JsonResponse terrainClassification(@RequestParam("file") MultipartFile file,
                                 HttpServletRequest request) throws Exception {
         JsonResponse result = new JsonResponse();
+        //如果为测试环境，返回示例图片
+        if (runtimeEnvironment.equals("test")) {
+            result.setCode(200);
+            result.setMessage("示例图片");
+            result.setData("https://cdn.bewcf.info/softwareCup/d6ff800a-5895-44df-a0ba-be04b20442e1.png");
+            return result;
+        }
         //本地上传
         String path = fileService.upload(file, "terrainClassification");
         String result_name = UUID.randomUUID() +  ".png";
@@ -124,6 +157,13 @@ public class AIController {
     public JsonResponse objectExtraction(@RequestParam("file") MultipartFile file,
                                 HttpServletRequest request) throws Exception {
         JsonResponse result = new JsonResponse();
+        //如果为测试环境，返回示例图片
+        if (runtimeEnvironment.equals("test")) {
+            result.setCode(200);
+            result.setMessage("示例图片");
+            result.setData("https://cdn.bewcf.info/softwareCup/d19b9f4e-ba6e-4526-bef3-ce1f69a4a0cc.png");
+            return result;
+        }
         //本地上传
         String path = fileService.upload(file, "objectExtraction");
         String result_name = UUID.randomUUID() +  ".png";

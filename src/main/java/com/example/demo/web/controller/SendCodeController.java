@@ -31,7 +31,7 @@ public class SendCodeController {
 
     @RequestMapping(value = "/sendCode", method= RequestMethod.GET)
     @ResponseBody
-    public JsonResponse getCode(@RequestBody String memPhone){
+    public JsonResponse getCode(@RequestParam String memPhone){
         System.out.println(memPhone);
         String p = memPhone.replace("+86","");
         p = p.replace("=","");
@@ -64,7 +64,7 @@ public class SendCodeController {
      */
     @RequestMapping(value = "/sendRegister", method= RequestMethod.GET)
     @ResponseBody
-    public JsonResponse getRegister(@RequestBody String memPhone){
+    public JsonResponse getRegister(@RequestParam String memPhone){
         System.out.println(memPhone);
         String p = memPhone.replace("+86","");
         p = p.replace("=","");

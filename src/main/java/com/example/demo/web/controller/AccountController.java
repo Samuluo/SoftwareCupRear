@@ -17,10 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
-
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 /**
  * @author Peter Hai

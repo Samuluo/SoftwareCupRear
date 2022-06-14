@@ -54,7 +54,7 @@ tx:
     smsSign: 水里的铁化亚铁个人网
     smsEffectiveTime: 5
 
-
+# 需要修改的参数
+runtime-environment: test
 python-exe-path: D:/anaconda3/python.exe
-
 
