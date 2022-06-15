@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -84,5 +86,34 @@ public class FileServiceImpl implements FileService {
         headers.add("Last-Modified", new Date().toString());
         headers.add("ETag", String.valueOf(System.currentTimeMillis()));
         return ResponseEntity.ok().headers(headers).contentLength(file.length()).contentType(MediaType.parseMediaType("application/octet-stream")).body(new FileSystemResource(file));
+    }
+
+    @Override
+    public String download(String file, String type) throws IOException {
+        String savePath = "static/" + type + "/uploads";
+        String[] split = file.split("/");
+        String filename = split[split.length - 1];
+        String filePath = savePath + "/" + filename;
+        //下载图片
+        URL url = new URL(file);
+        URLConnection con = url.openConnection();
+        con.setConnectTimeout(5000);
+        InputStream is = con.getInputStream();
+        byte[] bs = new byte[1024];
+        int len;
+        File sf = new File(savePath);
+        if (!sf.exists()) {
+            sf.mkdirs();
+        }
+        //OutputStream os = new FileOutputStream(sf.getPath() + "\\" + filename);
+        OutputStream os = new FileOutputStream(filePath);
+        // 开始读取
+        while ((len = is.read(bs)) != -1) {
+            os.write(bs, 0, len);
+        }
+        // 完毕，关闭所有链接
+        os.close();
+        is.close();
+        return filePath;
     }
 }

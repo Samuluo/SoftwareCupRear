@@ -150,7 +150,7 @@ public class CodeGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath + "/src/main/java/" + javaPath + "/model/domain/" + tableInfo.getEntityName() + fileSuffix;
+                return projectPath + "/src/main/java/" + javaPath + "/entity/" + tableInfo.getEntityName() + fileSuffix;
             }
 
         });
@@ -186,7 +186,7 @@ public class CodeGenerator {
         strategy.setSuperControllerClass("com.example.demo.common.BaseController");
         strategy.setEntityLombokModel(true);//启用lombok注解
         strategy.setChainModel(true);//启用lombok链式注解
-        strategy.setInclude("user");
+        strategy.setInclude("record");
        //strategy.setTablePrefix("caps_");//去表前缀配置
 
         mpg.setGlobalConfig(gc);

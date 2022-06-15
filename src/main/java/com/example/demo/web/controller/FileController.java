@@ -2,6 +2,9 @@ package com.example.demo.web.controller;
 
 import com.example.demo.common.JsonResponse;
 import com.example.demo.common.QiniuCloudUtil;
+import com.example.demo.service.LibraryService;
+import com.example.demo.service.impl.LibraryServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -13,12 +16,15 @@ import java.util.UUID;
 public class FileController {
 
 
+    @Autowired
+    private LibraryService libraryService;
+
     /**
-     * 七牛云文件上传
+     * 七牛云文件上传,如果有userId,则把图片保存至用户图片库
      */
-    @ResponseBody
     @RequestMapping(value="/uploadImg", method= RequestMethod.POST)
-    public JsonResponse uploadImg(@RequestParam("file") MultipartFile image) throws IOException {
+    public JsonResponse uploadImg(@RequestParam("file") MultipartFile image,
+                                  @RequestParam(value = "userId", required = false) Integer userId) {
         JsonResponse result = new JsonResponse();
         if (image.isEmpty()) {
             result.setCode(400);
@@ -27,13 +33,17 @@ public class FileController {
         }
         try {
             byte[] bytes = image.getBytes();
-            String imageName = UUID.randomUUID().toString();
+            String imageName = UUID.randomUUID() + suffix(image.getOriginalFilename());
             try {
                 //使用base64方式上传到七牛云
                 String url = QiniuCloudUtil.put64image(bytes, imageName);
                 result.setCode(200);
                 result.setMessage("文件上传成功");
                 result.setData(url);
+                //把图片保存至用户图片库
+                if (userId != null) {
+                    libraryService.saveOne(userId, url);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -43,5 +53,13 @@ public class FileController {
         } finally {
             return result;
         }
+    }
+
+    /**
+     * 后缀名或empty："a.png" => ".png"
+     */
+    private static String suffix(String fileName) {
+        int i = fileName.lastIndexOf('.');
+        return i == -1 ? "" : fileName.substring(i);
     }
 }

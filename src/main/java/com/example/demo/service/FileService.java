@@ -12,4 +12,6 @@ public interface FileService {
     String upload(MultipartFile file, String type) throws IOException;
 
     ResponseEntity export(File file);
+
+    String download(String file1, String changeDetection) throws IOException;
 }

@@ -114,7 +114,7 @@ public class QiniuCloudUtil {
         //System.out.println(request.headers());
         OkHttpClient client = new OkHttpClient();
         com.squareup.okhttp.Response response = client.newCall(request).execute();
-        System.out.println(response);
+        //System.out.println(response);
         //如果不需要添加图片样式，使用以下方式
         return DOMAIN + key;
         //return DOMAIN + key + "?" + style;

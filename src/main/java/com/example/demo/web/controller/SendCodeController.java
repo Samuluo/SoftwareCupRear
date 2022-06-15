@@ -36,7 +36,7 @@ public class SendCodeController {
         String p = memPhone.replace("+86","");
         p = p.replace("=","");
         String po = memPhone.replace("=","");
-        System.out.println(p);
+//        System.out.println(p);
         List<User> list = new ArrayList<>();
         list = userService.list();
         for (User user : list) {
@@ -52,7 +52,7 @@ public class SendCodeController {
                 Jedis jedis = new Jedis("127.0.0.1",6379);
                 jedis.setex(codeKey,300,code);
                 jedis.close();
-                return JsonResponse.success("发送成功！");
+                return JsonResponse.success("发送成功！" + code);
             }
         }
         return JsonResponse.failure("手机号未注册！");
@@ -69,7 +69,7 @@ public class SendCodeController {
         String p = memPhone.replace("+86","");
         p = p.replace("=","");
         String po = memPhone.replace("=","");
-        System.out.println(p);
+//        System.out.println(p);
 
         //随机生成验证码
         String code = String.valueOf(new Random().nextInt(999999));
@@ -82,7 +82,7 @@ public class SendCodeController {
         Jedis jedis = new Jedis("127.0.0.1",6379);
         jedis.setex(codeKey,300,code);
         jedis.close();
-        return JsonResponse.success("发送成功！");
+        return JsonResponse.success("发送成功！" + code);
 
     }
 
