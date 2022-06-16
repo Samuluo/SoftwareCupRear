@@ -10,6 +10,8 @@ import com.example.demo.common.JsonResponse;
 import com.example.demo.service.UserService;
 import com.example.demo.entity.User;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  *
@@ -35,7 +37,11 @@ public class UserController {
     */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public JsonResponse getById(@PathVariable("id") Long id)throws Exception {
+    public JsonResponse getById(@PathVariable("id") Long id, HttpServletRequest request)throws Exception {
+        String token = request.getHeader("token");
+        if(token.isEmpty()) {
+            return JsonResponse.failure("用户未登录，请登录后操作");
+        }
         User  user =  userService.getById(id);
         return JsonResponse.success(user);
     }

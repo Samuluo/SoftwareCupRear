@@ -6,7 +6,8 @@
     <resultMap id="BaseResultMap" type="com.example.demo.entity.Library">
         <id column="id" property="id" />
         <result column="user_id" property="userId" />
-        <result column="img" property="img" />
+        <result column="file" property="file" />
+        <result column="name" property="name" />
         <result column="time" property="time" />
     </resultMap>
 

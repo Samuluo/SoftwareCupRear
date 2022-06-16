@@ -30,27 +30,8 @@ public class AccountRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        Integer userId = ((AccountProfile)principalCollection.getPrimaryPrincipal()).getId();
-/*
-         * 2、到数据库查是否有此对象  */
-
-        User user = userService.getById(Long.valueOf(userId));
-        if(user!=null){
-//2.1、权限信息对象info,用来存放查出的用户的所有的角色（role）及权限（permission）
-
-            SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-//2.2、用户的角色集合
-
-            info.addRole(user.getStatus().toString());
-//2.3、用户的角色对应的所有权限，如果只使用角色定义访问权限，下面的四行可以不要
-            /*List<Role> roleList=user.getRoleList();
-            for (Role role : roleList) {
-                info.addStringPermissions(role.getPermissionsName());
-            }*/
-
-            return info;
-        }
-        return null;
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        return info;
     }
 
     @Override

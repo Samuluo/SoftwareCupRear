@@ -1,11 +1,13 @@
 package com.example.demo.web.controller;
 
+import cn.hutool.core.lang.Assert;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.common.JsonResponse;
 import com.example.demo.common.QiniuCloudUtil;
 import com.example.demo.service.RecordService;
 import com.example.demo.service.impl.AIService;
 import com.example.demo.service.FileService;
+import com.example.demo.shiro.util.ShiroUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -126,6 +128,7 @@ public class AIController {
                                               @RequestParam(value = "userId", required = false) Integer userId) throws Exception {
         JsonResponse result = new JsonResponse();
         //如果为测试环境，返回示例图片
+        //Assert.isTrue(temp.getUserId().equals(ShiroUtil.getProfile().getId()),"没有权限编辑");
         if (runtimeEnvironment.equals("test")) {
             String url = "https://cdn.bewcf.info/softwareCup/d6ff800a-5895-44df-a0ba-be04b20442e1.png";
             result.setCode(200);

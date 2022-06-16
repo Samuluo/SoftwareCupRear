@@ -2,6 +2,7 @@ package com.example.demo.web.controller;
 
 import com.example.demo.common.JsonResponse;
 import com.example.demo.common.QiniuCloudUtil;
+import com.example.demo.entity.Library;
 import com.example.demo.service.LibraryService;
 import com.example.demo.service.impl.LibraryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +38,15 @@ public class FileController {
             try {
                 //使用base64方式上传到七牛云
                 String url = QiniuCloudUtil.put64image(bytes, imageName);
+                result.setStatus(true);
                 result.setCode(200);
-                result.setMessage("文件上传成功");
                 result.setData(url);
                 //把图片保存至用户图片库
+
                 if (userId != null) {
-                    libraryService.saveOne(userId, url);
+                    Library li = new Library().setUserId(userId).setFile(url).setName(image.getOriginalFilename());
+                    libraryService.save(li);
+                    result.setMessage(li.getId().toString());
                 }
             } catch (Exception e) {
                 e.printStackTrace();

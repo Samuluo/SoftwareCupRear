@@ -48,7 +48,7 @@ public class AccountController {
         Assert.notNull(user,"用户不存在");
         //对象封装操作类
         if (!(SecureUtil.md5(user.getPassword())).equals(SecureUtil.md5(loginDto.getPassword()))){
-            return JsonResponse.failure("密码不正确");
+            return JsonResponse.failure("密码不正确").setCode(409);
         }
         String jwt = jwtUtils.generateToken(user.getId());
         response.addHeader("Authorization",jwt);
@@ -73,7 +73,7 @@ public class AccountController {
         Assert.notNull(user,"用户不存在");
 
         if (!getRedisCode(us.getPhone(),us.getVerity())){
-            return JsonResponse.failure("验证不正确或已经失效");
+            return JsonResponse.failure("验证不正确或已经失效").setCode(505);
         }
         String jwt = jwtUtils.generateToken(user.getId());
         response.addHeader("Authorization",jwt);
@@ -101,9 +101,9 @@ public class AccountController {
     public JsonResponse register(@RequestBody User user,@RequestParam(value = "code")String code) {
         if(getRedisCode(user.getPhone(),code)) {
             userService.save(user);
-            return JsonResponse.success("注册成功！");
+            return JsonResponse.success("注册成功！").setCode(200);
         }
-        return JsonResponse.success("验证码错误");
+        return JsonResponse.success("验证码错误").setCode(409);
     }
 
     /**

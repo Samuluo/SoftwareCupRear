@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author hjh
@@ -35,6 +35,7 @@ public class Library extends Model<Library> {
 
     private LocalDateTime time;
 
+    private String name;
 
     @Override
     protected Serializable pkVal() {
