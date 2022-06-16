@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -44,7 +45,7 @@ public class FileController {
                 //把图片保存至用户图片库
 
                 if (userId != null) {
-                    Library li = new Library().setUserId(userId).setFile(url).setName(image.getOriginalFilename());
+                    Library li = new Library().setUserId(userId).setFile(url).setName(image.getOriginalFilename()).setTime(LocalDateTime.now());
                     libraryService.save(li);
                     result.setMessage(li.getId().toString());
                 }
