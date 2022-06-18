@@ -64,7 +64,7 @@ public class UserController {
     */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseBody
-    public JsonResponse updateUser(@PathVariable("id") Integer  id,User  user) throws Exception {
+    public JsonResponse updateUser(@PathVariable("id") Integer  id,@RequestBody User  user) throws Exception {
         user.setId(id);
         userService.updateById(user);
         return JsonResponse.success(null);
