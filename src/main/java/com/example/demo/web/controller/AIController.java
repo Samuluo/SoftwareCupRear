@@ -92,25 +92,37 @@ public class AIController {
         JsonResponse result = new JsonResponse();
         //如果为测试环境，返回示例字典
         if (runtimeEnvironment.equals("test")) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("category_id", 0);
-            jsonObject.put("category", "playground");
-            jsonObject.put("bbox", new Double[]{306.23284912109375, 273.0307312011719, 177.12255859375, 410.4651184082031});
-            jsonObject.put("score", 0.7360728979110718);
+            String url = "https://cdn.bewcf.info/softwareCup/visualize_0178e50c-04e4-496d-9220-5af240ef6ae8.jpg";
             result.setCode(200);
-            result.setMessage("示例字典");
-            result.setData(jsonObject);
-            if (userId != null) recordService.saveOne(userId, file, null, jsonObject.toJSONString(), "objectDetection");
+            result.setMessage("示例图片");
+            result.setData(url);
+            if (userId != null) recordService.saveOne(userId, file, null, url, "objectDetection");
             return result;
+//            JSONObject jsonObject = new JSONObject();
+//            jsonObject.put("category_id", 0);
+//            jsonObject.put("category", "playground");
+//            jsonObject.put("bbox", new Double[]{306.23284912109375, 273.0307312011719, 177.12255859375, 410.4651184082031});
+//            jsonObject.put("score", 0.7360728979110718);
+//            result.setCode(200);
+//            result.setMessage("示例字典");
+//            result.setData(jsonObject);
+//            if (userId != null) recordService.saveOne(userId, file, null, jsonObject.toJSONString(), "objectDetection");
+//            return result;
         }
         //根据图片url下载图片
+        String[] split = file.split("/");
+        String filename = split[split.length - 1];
         String filePath = fileService.download(file, "objectDetection");
-        String output = aiService.objectDetection(filePath);
+        String result_path = "static/objectDetection/results";
+        aiService.objectDetection(filePath, result_path);
+        //结果上传至云端，返回图片链接
+        byte[] bytes = IOUtils.toByteArray(new FileInputStream(result_path + "\\visualize_" + filename));
+        String url = QiniuCloudUtil.put64image(bytes, "visualize_" + filename);
         result.setCode(200);
         result.setMessage("预测成功");
-        result.setData(output);
+        result.setData(url);
         //保存预测记录
-        if (userId != null) recordService.saveOne(userId, file, null, output, "objectDetection");
+        if (userId != null) recordService.saveOne(userId, file, null, url, "objectDetection");
         return result;
     }
 

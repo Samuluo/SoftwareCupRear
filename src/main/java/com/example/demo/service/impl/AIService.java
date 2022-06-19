@@ -49,9 +49,9 @@ public class AIService {
     /**
      * 目标检测
      * */
-    public String objectDetection(String path) {
+    public String objectDetection(String path, String result_path) {
         //前面一半是本地环境下的python的启动文件地址，后面一半是要执行的python脚本地址
-        String[] arguments = new String[]{python_exe_path, "python/objectDetection/test.py", path};
+        String[] arguments = new String[]{python_exe_path, "python/objectDetection/test.py", path, result_path};
 //        String[] arguments = new String[] {"python/changeDetection/dist/test.exe",path1,path2,result_path};
         Process proc;
         try {
@@ -66,9 +66,7 @@ public class AIService {
             in.close();
             //waitFor是用来显示脚本是否运行成功，1表示失败，0表示成功，还有其他的表示其他错误
             int re = proc.waitFor();
-            byte[] b = new byte[1024];
-            proc.getOutputStream().write(b);
-            return b.toString();
+            return null;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
