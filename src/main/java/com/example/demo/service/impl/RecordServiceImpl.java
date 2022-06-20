@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -48,5 +50,43 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
     @Override
     public Object removeOne(Integer id) {
         return recordMapper.deleteById(id);
+    }
+
+    @Override
+    public Object statistics(Integer userId) {
+        QueryWrapper<Record> recordQueryWrapper = new QueryWrapper<>();
+        recordQueryWrapper.eq("user_id", userId);
+        List<Record> records = recordMapper.selectList(recordQueryWrapper);
+        Map<String, Double> map = new LinkedHashMap<>();
+        map.put("目标提取", 0.0);
+        map.put("变化检测", 0.0);
+        map.put("目标检测", 0.0);
+        map.put("地物分类", 0.0);
+        int total = records.size();
+        if (total == 0) return map;
+        int changeDetection = 0, objectDetection = 0, objectExtraction = 0, terrainClassification = 0;
+        for (Record record : records) {
+            switch (record.getType()) {
+                case "changeDetection":
+                    changeDetection++;
+                    break;
+                case "objectDetection":
+                    objectDetection++;
+                    break;
+                case "objectExtraction":
+                    objectExtraction++;
+                    break;
+                case "terrainClassification":
+                    terrainClassification++;
+                    break;
+                default:
+                    break;
+            }
+        }
+        map.put("目标提取", (double)objectExtraction / total);
+        map.put("变化检测", (double)changeDetection / total);
+        map.put("目标检测", (double)objectDetection / total);
+        map.put("地物分类", (double)terrainClassification / total);
+        return map;
     }
 }

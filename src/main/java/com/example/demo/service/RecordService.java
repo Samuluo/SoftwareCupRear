@@ -20,4 +20,6 @@ public interface RecordService extends IService<Record> {
     List<Record> getAll(Integer userId);
 
     Object removeOne(Integer id);
+
+    Object statistics(Integer userId);
 }

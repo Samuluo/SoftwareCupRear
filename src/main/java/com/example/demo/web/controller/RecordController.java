@@ -55,5 +55,15 @@ public class RecordController {
         return JsonResponse.success(result);
     }
 
+    /**
+     * 描述：统计用户预测记录
+     *
+     */
+    @RequestMapping(value = "/statistics", method = RequestMethod.GET)
+    @ResponseBody
+    public JsonResponse statistics(@RequestParam("userId") Integer userId) {
+        return JsonResponse.success(recordService.statistics(userId));
+    }
+
 }
 
