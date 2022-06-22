@@ -1,19 +1,17 @@
 package com.example.demo.web.controller;
 
-import cn.hutool.core.lang.Assert;
-import com.alibaba.fastjson.JSONObject;
 import com.example.demo.common.JsonResponse;
 import com.example.demo.common.QiniuCloudUtil;
 import com.example.demo.service.RecordService;
 import com.example.demo.service.impl.AIService;
 import com.example.demo.service.FileService;
-import com.example.demo.shiro.util.ShiroUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+
 import java.io.*;
 import java.util.UUID;
 
@@ -34,8 +32,10 @@ public class AIController {
     @Value("${runtime-environment}")
     private String runtimeEnvironment;
 
+
     /**
      * 变化检测
+     *
      * @param file1
      * @param file2
      * @param userId
@@ -51,6 +51,7 @@ public class AIController {
         JsonResponse result = new JsonResponse();
         //如果为测试环境，返回示例图片
         if (runtimeEnvironment.equals("test")) {
+            Thread.sleep((int) (1000 + Math.random() * (1000)));
             String url = "https://cdn.bewcf.info/softwareCup/c2069e82-29ec-4eb6-a342-e2da8c9735ee.png";
             result.setCode(200);
             result.setMessage("示例图片");
@@ -63,7 +64,7 @@ public class AIController {
         String filePath2 = fileService.download(file2, "changeDetection");
         //定义输出文件夹
         String result_name = UUID.randomUUID() + suffix(filePath1);
-        String result_path = "static/changeDetection/results/" + result_name;
+        String result_path = System.getProperty("user.dir") + "/static/changeDetection/results/" + result_name;
         //使用python脚本预测
         aiService.changeDetection(filePath1, filePath2, result_path);
         //结果上传至云端，返回图片链接
@@ -80,6 +81,7 @@ public class AIController {
 
     /**
      * 目标检测
+     *
      * @param file
      * @param userId
      * @return
@@ -92,6 +94,7 @@ public class AIController {
         JsonResponse result = new JsonResponse();
         //如果为测试环境，返回示例字典
         if (runtimeEnvironment.equals("test")) {
+            Thread.sleep((int) (1000 + Math.random() * (1000)));
             String url = "https://cdn.bewcf.info/softwareCup/visualize_0178e50c-04e4-496d-9220-5af240ef6ae8.jpg";
             result.setCode(200);
             result.setMessage("示例图片");
@@ -113,7 +116,7 @@ public class AIController {
         String[] split = file.split("/");
         String filename = split[split.length - 1];
         String filePath = fileService.download(file, "objectDetection");
-        String result_path = "static/objectDetection/results";
+        String result_path = System.getProperty("user.dir") + "/static/objectDetection/results";
         aiService.objectDetection(filePath, result_path);
         //结果上传至云端，返回图片链接
         byte[] bytes = IOUtils.toByteArray(new FileInputStream(result_path + "\\visualize_" + filename));
@@ -128,7 +131,8 @@ public class AIController {
 
 
     /**
-     *地物分类
+     * 地物分类
+     *
      * @param file
      * @param userId
      * @return
@@ -142,6 +146,7 @@ public class AIController {
         //如果为测试环境，返回示例图片
         //Assert.isTrue(temp.getUserId().equals(ShiroUtil.getProfile().getId()),"没有权限编辑");
         if (runtimeEnvironment.equals("test")) {
+            Thread.sleep((int) (1000 + Math.random() * (1000)));
             String url = "https://cdn.bewcf.info/softwareCup/d6ff800a-5895-44df-a0ba-be04b20442e1.png";
             result.setCode(200);
             result.setMessage("示例图片");
@@ -152,7 +157,7 @@ public class AIController {
         //根据图片url下载图片
         String filePath = fileService.download(file, "terrainClassification");
         String result_name = UUID.randomUUID() + suffix(filePath);
-        String result_path = "static/terrainClassification/results/" + result_name;
+        String result_path = System.getProperty("user.dir") + "/static/terrainClassification/results/" + result_name;
         aiService.terrainClassification(filePath, result_path);
         //结果上传至云端，返回图片链接
         byte[] bytes = IOUtils.toByteArray(new FileInputStream(result_path));
@@ -168,6 +173,7 @@ public class AIController {
 
     /**
      * 目标提取
+     *
      * @param file
      * @param userId
      * @return
@@ -180,6 +186,7 @@ public class AIController {
         JsonResponse result = new JsonResponse();
         //如果为测试环境，返回示例图片
         if (runtimeEnvironment.equals("test")) {
+            Thread.sleep((int) (1000 + Math.random() * (1000)));
             String url = "https://cdn.bewcf.info/softwareCup/d19b9f4e-ba6e-4526-bef3-ce1f69a4a0cc.png";
             result.setCode(200);
             result.setMessage("示例图片");
@@ -190,7 +197,7 @@ public class AIController {
         //根据图片url下载图片
         String filePath = fileService.download(file, "objectExtraction");
         String result_name = UUID.randomUUID() + suffix(filePath);
-        String result_path = "static/objectExtraction/results/" + result_name;
+        String result_path = System.getProperty("user.dir") + "/static/objectExtraction/results/" + result_name;
         aiService.objectExtraction(filePath, result_path);
         //结果上传至云端，返回图片链接
         byte[] bytes = IOUtils.toByteArray(new FileInputStream(result_path));

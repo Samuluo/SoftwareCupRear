@@ -57,4 +57,6 @@ tx:
 # 需要修改的参数
 runtime-environment: test
 python-exe-path: D:/anaconda3/python.exe
+#python-exe-path-server: D:/anaconda3/python.exe
+python-exe-path-server: /usr/bin/python3
 

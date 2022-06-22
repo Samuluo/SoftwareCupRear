@@ -24,7 +24,7 @@ public class AIService {
 
     public void changeDetection(String path1, String path2, String result_path){
         //前面一半是本地环境下的python的启动文件地址，后面一半是要执行的python脚本地址
-        String[] arguments = new String[] {python_exe_path, "python/changeDetection/test.py",path1,path2,result_path};
+        String[] arguments = new String[] {python_exe_path, System.getProperty("user.dir") + "/python/changeDetection/test.py",path1,path2,result_path};
 //        String[] arguments = new String[] {"python/changeDetection/dist/test.exe",path1,path2,result_path};
         Process proc;
         try {
@@ -51,7 +51,7 @@ public class AIService {
      * */
     public String objectDetection(String path, String result_path) {
         //前面一半是本地环境下的python的启动文件地址，后面一半是要执行的python脚本地址
-        String[] arguments = new String[]{python_exe_path, "python/objectDetection/test.py", path, result_path};
+        String[] arguments = new String[]{python_exe_path, System.getProperty("user.dir") + "/python/objectDetection/test.py", path, result_path};
 //        String[] arguments = new String[] {"python/changeDetection/dist/test.exe",path1,path2,result_path};
         Process proc;
         try {
@@ -79,7 +79,7 @@ public class AIService {
      * */
     public void terrainClassification(String path, String result_path){
         //前面一半是本地环境下的python的启动文件地址，后面一半是要执行的python脚本地址
-        String[] arguments = new String[] {python_exe_path, "python/terrainClassification/test.py", path, result_path};
+        String[] arguments = new String[] {python_exe_path, System.getProperty("user.dir") + "/python/terrainClassification/test.py", path, result_path};
         Process proc;
         try {
             proc = Runtime.getRuntime().exec(arguments);
@@ -106,7 +106,7 @@ public class AIService {
      */
     public void objectExtraction(String path, String result_path){
         //前面一半是本地环境下的python的启动文件地址，后面一半是要执行的python脚本地址
-        String[] arguments = new String[] {python_exe_path, "python/objectExtraction/test.py",path,result_path};
+        String[] arguments = new String[] {python_exe_path, System.getProperty("user.dir") + "/python/objectExtraction/test.py",path,result_path};
         Process proc;
         try {
             proc = Runtime.getRuntime().exec(arguments);

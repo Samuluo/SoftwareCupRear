@@ -11,5 +11,12 @@
     <input type="file" name="file">
     <button type="submit">提交</button>
 </form>
+<!--"http://127.0.0.1:8088/file/uploadImgs?userId=2"-->
+<form method="post" action="http://bewcf.info:8088/file/uploadImgs?userId=2" enctype="multipart/form-data">
+    <h3>上传多张文件</h3>
+    <input type="file" name="file" class="form-control" multiple="multiple" >
+    <button type="submit">提交</button>
+</form>
+
 </body>
 </html>

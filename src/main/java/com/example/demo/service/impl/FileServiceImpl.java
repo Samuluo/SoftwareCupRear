@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.service.FileService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -13,17 +14,15 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
 public class FileServiceImpl implements FileService {
 
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyyMM");
-
+    @Value("${python-exe-path-server}")
+    private String python_exe_path;
 
     // 上传图片
     @Override
@@ -88,9 +87,12 @@ public class FileServiceImpl implements FileService {
         return ResponseEntity.ok().headers(headers).contentLength(file.length()).contentType(MediaType.parseMediaType("application/octet-stream")).body(new FileSystemResource(file));
     }
 
+    //下载网络图片
     @Override
     public String download(String file, String type) throws IOException {
-        String savePath = "static/" + type + "/uploads";
+//        String path = System.getProperty("user.dir") + "/static/" + type + "/uploads";
+//        System.out.println(path);
+        String savePath = System.getProperty("user.dir") + "/static/" + type + "/uploads";
         String[] split = file.split("/");
         String filename = split[split.length - 1];
         String filePath = savePath + "/" + filename;
@@ -115,5 +117,33 @@ public class FileServiceImpl implements FileService {
         os.close();
         is.close();
         return filePath;
+    }
+
+    /**
+     * 结果图片转化
+     */
+    @Override
+    public void transform(String filePath, String result_path, String r, String g, String b) {
+        String python_file = System.getProperty("user.dir") + "/python/transform/test.py";
+        String[] arguments = new String[]{python_exe_path, python_file, filePath, result_path, r ,g , b};
+        Process proc;
+        try {
+            proc = Runtime.getRuntime().exec(arguments);
+            // 执行py文件
+            //用输入输出流来截取结果
+            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            String line = null;
+            while ((line = in.readLine()) != null) {
+                System.out.println(line);
+            }
+            in.close();
+            //waitFor是用来显示脚本是否运行成功，1表示失败，0表示成功，还有其他的表示其他错误
+            int re = proc.waitFor();
+            System.out.println(re);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
