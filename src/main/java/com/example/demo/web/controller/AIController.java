@@ -52,7 +52,8 @@ public class AIController {
         //如果为测试环境，返回示例图片
         if (runtimeEnvironment.equals("test")) {
             Thread.sleep((int) (1000 + Math.random() * (1000)));
-            String url = "https://cdn.bewcf.info/softwareCup/c2069e82-29ec-4eb6-a342-e2da8c9735ee.png";
+//            String url = "https://cdn.bewcf.info/softwareCup/c2069e82-29ec-4eb6-a342-e2da8c9735ee.png";
+            String url = "https://cdn.bewcf.info/softwareCup/bc2b3db6-bdcb-4b7a-bd36-e1fbb15ec062.png";
             result.setCode(200);
             result.setMessage("示例图片");
             result.setData(url);
@@ -63,7 +64,7 @@ public class AIController {
         String filePath1 = fileService.download(file1, "changeDetection");
         String filePath2 = fileService.download(file2, "changeDetection");
         //定义输出文件夹
-        String result_name = UUID.randomUUID() + suffix(filePath1);
+        String result_name = UUID.randomUUID() + ".png";
         String result_path = System.getProperty("user.dir") + "/static/changeDetection/results/" + result_name;
         //使用python脚本预测
         aiService.changeDetection(filePath1, filePath2, result_path);
@@ -147,7 +148,8 @@ public class AIController {
         //Assert.isTrue(temp.getUserId().equals(ShiroUtil.getProfile().getId()),"没有权限编辑");
         if (runtimeEnvironment.equals("test")) {
             Thread.sleep((int) (1000 + Math.random() * (1000)));
-            String url = "https://cdn.bewcf.info/softwareCup/d6ff800a-5895-44df-a0ba-be04b20442e1.png";
+//            String url = "https://cdn.bewcf.info/softwareCup/d6ff800a-5895-44df-a0ba-be04b20442e1.png";
+            String url = "https://cdn.bewcf.info/softwareCup/4f2a272d-9c98-40d1-aea1-257f98f74a88.png";
             result.setCode(200);
             result.setMessage("示例图片");
             result.setData(url);
@@ -156,7 +158,7 @@ public class AIController {
         }
         //根据图片url下载图片
         String filePath = fileService.download(file, "terrainClassification");
-        String result_name = UUID.randomUUID() + suffix(filePath);
+        String result_name = UUID.randomUUID() + ".png";
         String result_path = System.getProperty("user.dir") + "/static/terrainClassification/results/" + result_name;
         aiService.terrainClassification(filePath, result_path);
         //结果上传至云端，返回图片链接
@@ -187,7 +189,8 @@ public class AIController {
         //如果为测试环境，返回示例图片
         if (runtimeEnvironment.equals("test")) {
             Thread.sleep((int) (1000 + Math.random() * (1000)));
-            String url = "https://cdn.bewcf.info/softwareCup/d19b9f4e-ba6e-4526-bef3-ce1f69a4a0cc.png";
+//            String url = "https://cdn.bewcf.info/softwareCup/d19b9f4e-ba6e-4526-bef3-ce1f69a4a0cc.png";
+            String url = "https://cdn.bewcf.info/softwareCup/e944fccc-c8e4-4340-af57-129918a193b8.png";
             result.setCode(200);
             result.setMessage("示例图片");
             result.setData(url);
@@ -196,7 +199,7 @@ public class AIController {
         }
         //根据图片url下载图片
         String filePath = fileService.download(file, "objectExtraction");
-        String result_name = UUID.randomUUID() + suffix(filePath);
+        String result_name = UUID.randomUUID() + ".png";
         String result_path = System.getProperty("user.dir") + "/static/objectExtraction/results/" + result_name;
         aiService.objectExtraction(filePath, result_path);
         //结果上传至云端，返回图片链接
