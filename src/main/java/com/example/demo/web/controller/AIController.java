@@ -10,7 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
 import java.util.UUID;
@@ -52,8 +54,7 @@ public class AIController {
         //如果为测试环境，返回示例图片
         if (runtimeEnvironment.equals("test")) {
             Thread.sleep((int) (1000 + Math.random() * (1000)));
-//            String url = "https://cdn.bewcf.info/softwareCup/c2069e82-29ec-4eb6-a342-e2da8c9735ee.png";
-            String url = "https://cdn.bewcf.info/softwareCup/bc2b3db6-bdcb-4b7a-bd36-e1fbb15ec062.png";
+            String url = "https://cdn.bewcf.info/softwareCup/ed8b661c-a9bd-4406-b9a3-52fa9a98d1d9.png";
             result.setCode(200);
             result.setMessage("示例图片");
             result.setData(url);
@@ -64,13 +65,17 @@ public class AIController {
         String filePath1 = fileService.download(file1, "changeDetection");
         String filePath2 = fileService.download(file2, "changeDetection");
         //定义输出文件夹
-        String result_name = UUID.randomUUID() + ".png";
+        String result_name = UUID.randomUUID() + "";
         String result_path = System.getProperty("user.dir") + "/static/changeDetection/results/" + result_name;
-        //使用python脚本预测
-        aiService.changeDetection(filePath1, filePath2, result_path);
+        //调用python后端
+        String python_url = "http://127.0.0.1:8081/changeDetection?file1=" + filePath1 + "&file2=" + filePath2 + "&result_path=" + result_path;
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.exchange(python_url, HttpMethod.POST, null, String.class);
         //结果上传至云端，返回图片链接
-        byte[] bytes = IOUtils.toByteArray(new FileInputStream(result_path));
-        String url = QiniuCloudUtil.put64image(bytes, result_name);
+        byte[] bytes = IOUtils.toByteArray(new FileInputStream(result_path + ".png"));
+        String url = QiniuCloudUtil.put64image(bytes, result_name + ".png");
+        byte[] bytes2 = IOUtils.toByteArray(new FileInputStream(result_path + ".jpg"));
+        String url2 = QiniuCloudUtil.put64image(bytes2, result_name + ".jpg");
         result.setCode(200);
         result.setMessage("预测成功");
         result.setData(url);
@@ -93,7 +98,7 @@ public class AIController {
     public JsonResponse objectDetection(@RequestParam("file") String file,
                                         @RequestParam(value = "userId", required = false) Integer userId) throws Exception {
         JsonResponse result = new JsonResponse();
-        //如果为测试环境，返回示例字典
+        //如果为测试环境，返回示例图片
         if (runtimeEnvironment.equals("test")) {
             Thread.sleep((int) (1000 + Math.random() * (1000)));
             String url = "https://cdn.bewcf.info/softwareCup/visualize_0178e50c-04e4-496d-9220-5af240ef6ae8.jpg";
@@ -102,23 +107,16 @@ public class AIController {
             result.setData(url);
             if (userId != null) recordService.saveOne(userId, file, null, url, "objectDetection");
             return result;
-//            JSONObject jsonObject = new JSONObject();
-//            jsonObject.put("category_id", 0);
-//            jsonObject.put("category", "playground");
-//            jsonObject.put("bbox", new Double[]{306.23284912109375, 273.0307312011719, 177.12255859375, 410.4651184082031});
-//            jsonObject.put("score", 0.7360728979110718);
-//            result.setCode(200);
-//            result.setMessage("示例字典");
-//            result.setData(jsonObject);
-//            if (userId != null) recordService.saveOne(userId, file, null, jsonObject.toJSONString(), "objectDetection");
-//            return result;
         }
         //根据图片url下载图片
         String[] split = file.split("/");
         String filename = split[split.length - 1];
         String filePath = fileService.download(file, "objectDetection");
         String result_path = System.getProperty("user.dir") + "/static/objectDetection/results";
-        aiService.objectDetection(filePath, result_path);
+        //调用python后端
+        String python_url = "http://127.0.0.1:8081/objectDetection?file=" + filePath + "&result_path=" + result_path;
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.exchange(python_url, HttpMethod.POST, null, String.class);
         //结果上传至云端，返回图片链接
         byte[] bytes = IOUtils.toByteArray(new FileInputStream(result_path + "\\visualize_" + filename));
         String url = QiniuCloudUtil.put64image(bytes, "visualize_" + filename);
@@ -148,8 +146,7 @@ public class AIController {
         //Assert.isTrue(temp.getUserId().equals(ShiroUtil.getProfile().getId()),"没有权限编辑");
         if (runtimeEnvironment.equals("test")) {
             Thread.sleep((int) (1000 + Math.random() * (1000)));
-//            String url = "https://cdn.bewcf.info/softwareCup/d6ff800a-5895-44df-a0ba-be04b20442e1.png";
-            String url = "https://cdn.bewcf.info/softwareCup/4f2a272d-9c98-40d1-aea1-257f98f74a88.png";
+            String url = "https://cdn.bewcf.info/softwareCup/71d31450-6ab0-4416-8796-d3c3669df2c4.png";
             result.setCode(200);
             result.setMessage("示例图片");
             result.setData(url);
@@ -158,12 +155,17 @@ public class AIController {
         }
         //根据图片url下载图片
         String filePath = fileService.download(file, "terrainClassification");
-        String result_name = UUID.randomUUID() + ".png";
+        String result_name = UUID.randomUUID() + "";
         String result_path = System.getProperty("user.dir") + "/static/terrainClassification/results/" + result_name;
-        aiService.terrainClassification(filePath, result_path);
+        //调用python后端
+        String python_url = "http://127.0.0.1:8081/terrainClassification?file=" + filePath + "&result_path=" + result_path;
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.exchange(python_url, HttpMethod.POST, null, String.class);
         //结果上传至云端，返回图片链接
-        byte[] bytes = IOUtils.toByteArray(new FileInputStream(result_path));
-        String url = QiniuCloudUtil.put64image(bytes, result_name);
+        byte[] bytes = IOUtils.toByteArray(new FileInputStream(result_path + ".png"));
+        String url = QiniuCloudUtil.put64image(bytes, result_name + ".png");
+        byte[] bytes2 = IOUtils.toByteArray(new FileInputStream(result_path + ".jpg"));
+        String url2 = QiniuCloudUtil.put64image(bytes2, result_name + ".jpg");
         result.setCode(200);
         result.setMessage("预测成功");
         result.setData(url);
@@ -189,8 +191,7 @@ public class AIController {
         //如果为测试环境，返回示例图片
         if (runtimeEnvironment.equals("test")) {
             Thread.sleep((int) (1000 + Math.random() * (1000)));
-//            String url = "https://cdn.bewcf.info/softwareCup/d19b9f4e-ba6e-4526-bef3-ce1f69a4a0cc.png";
-            String url = "https://cdn.bewcf.info/softwareCup/e944fccc-c8e4-4340-af57-129918a193b8.png";
+            String url = "https://cdn.bewcf.info/softwareCup/daa2ca8b-5bbe-4401-b3b4-f8f6de56edcb.png";
             result.setCode(200);
             result.setMessage("示例图片");
             result.setData(url);
@@ -199,25 +200,22 @@ public class AIController {
         }
         //根据图片url下载图片
         String filePath = fileService.download(file, "objectExtraction");
-        String result_name = UUID.randomUUID() + ".png";
+        String result_name = UUID.randomUUID() + "";
         String result_path = System.getProperty("user.dir") + "/static/objectExtraction/results/" + result_name;
-        aiService.objectExtraction(filePath, result_path);
+        //调用python后端
+        String python_url = "http://127.0.0.1:8081/objectExtraction?file=" + filePath + "&result_path=" + result_path;
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.exchange(python_url, HttpMethod.POST, null, String.class);
         //结果上传至云端，返回图片链接
-        byte[] bytes = IOUtils.toByteArray(new FileInputStream(result_path));
-        String url = QiniuCloudUtil.put64image(bytes, result_name);
+        byte[] bytes = IOUtils.toByteArray(new FileInputStream(result_path + ".png"));
+        String url = QiniuCloudUtil.put64image(bytes, result_name + ".png");
+        byte[] bytes2 = IOUtils.toByteArray(new FileInputStream(result_path + ".jpg"));
+        String url2 = QiniuCloudUtil.put64image(bytes2, result_name + ".jpg");
         result.setCode(200);
         result.setMessage("预测成功");
         result.setData(url);
         //保存预测记录
         if (userId != null) recordService.saveOne(userId, file, null, url, "objectExtraction");
         return result;
-    }
-
-    /**
-     * 后缀名或empty："a.png" => ".png"
-     */
-    private static String suffix(String fileName) {
-        int i = fileName.lastIndexOf('.');
-        return i == -1 ? "" : fileName.substring(i);
     }
 }

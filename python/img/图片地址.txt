@@ -1,4 +1,0 @@
-纯黑：https://cdn.bewcf.info/softwareCup/554bea32-5dd5-44d0-9511-5b4b3084821d.png
-地物分类：https://cdn.bewcf.info/softwareCup/4f2a272d-9c98-40d1-aea1-257f98f74a88.png
-目标提取：https://cdn.bewcf.info/softwareCup/e944fccc-c8e4-4340-af57-129918a193b8.png
-变化检测：https://cdn.bewcf.info/softwareCup/bc2b3db6-bdcb-4b7a-bd36-e1fbb15ec062.png
