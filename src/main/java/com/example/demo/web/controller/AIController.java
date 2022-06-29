@@ -68,7 +68,7 @@ public class AIController {
         String result_name = UUID.randomUUID() + "";
         String result_path = System.getProperty("user.dir") + "/static/changeDetection/results/" + result_name;
         //调用python后端
-        String python_url = "http://127.0.0.1:8081/changeDetection?file1=" + filePath1 + "&file2=" + filePath2 + "&result_path=" + result_path;
+        String python_url = "http://127.0.0.1:8082/changeDetection?file1=" + filePath1 + "&file2=" + filePath2 + "&result_path=" + result_path;
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.exchange(python_url, HttpMethod.POST, null, String.class);
         //结果上传至云端，返回图片链接
@@ -114,7 +114,7 @@ public class AIController {
         String filePath = fileService.download(file, "objectDetection");
         String result_path = System.getProperty("user.dir") + "/static/objectDetection/results";
         //调用python后端
-        String python_url = "http://127.0.0.1:8081/objectDetection?file=" + filePath + "&result_path=" + result_path;
+        String python_url = "http://127.0.0.1:8082/objectDetection?file=" + filePath + "&result_path=" + result_path;
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.exchange(python_url, HttpMethod.POST, null, String.class);
         //结果上传至云端，返回图片链接
@@ -141,6 +141,8 @@ public class AIController {
     @RequestMapping(value = "/terrainClassification", method = RequestMethod.POST)
     public JsonResponse terrainClassification(@RequestParam("file") String file,
                                               @RequestParam(value = "userId", required = false) Integer userId) throws Exception {
+        System.out.println(file);
+        System.out.println(userId);
         JsonResponse result = new JsonResponse();
         //如果为测试环境，返回示例图片
         //Assert.isTrue(temp.getUserId().equals(ShiroUtil.getProfile().getId()),"没有权限编辑");
@@ -158,7 +160,7 @@ public class AIController {
         String result_name = UUID.randomUUID() + "";
         String result_path = System.getProperty("user.dir") + "/static/terrainClassification/results/" + result_name;
         //调用python后端
-        String python_url = "http://127.0.0.1:8081/terrainClassification?file=" + filePath + "&result_path=" + result_path;
+        String python_url = "http://127.0.0.1:8082/terrainClassification?file=" + filePath + "&result_path=" + result_path;
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.exchange(python_url, HttpMethod.POST, null, String.class);
         //结果上传至云端，返回图片链接
@@ -203,7 +205,7 @@ public class AIController {
         String result_name = UUID.randomUUID() + "";
         String result_path = System.getProperty("user.dir") + "/static/objectExtraction/results/" + result_name;
         //调用python后端
-        String python_url = "http://127.0.0.1:8081/objectExtraction?file=" + filePath + "&result_path=" + result_path;
+        String python_url = "http://127.0.0.1:8082/objectExtraction?file=" + filePath + "&result_path=" + result_path;
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.exchange(python_url, HttpMethod.POST, null, String.class);
         //结果上传至云端，返回图片链接

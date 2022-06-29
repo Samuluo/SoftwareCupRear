@@ -6,7 +6,7 @@ from skimage.io import imsave
 import cv2
 
 # file1_path = "img1.png"
-# file2_path = "img2.png"
+# file2_path = "cd_img.png"
 # save_path = "result.png"
 # file1_path = "../example/cd/A/2.png"
 # file2_path = "../example/cd/B/2.png"
