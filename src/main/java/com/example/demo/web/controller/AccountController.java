@@ -100,6 +100,7 @@ public class AccountController {
     @PostMapping("/register")
     public JsonResponse register(@RequestBody User user,@RequestParam(value = "code")String code) {
         if(getRedisCode(user.getPhone(),code)) {
+            user.setAvatar("https://cdn.bewcf.info/softwareCup/DefaultAvatar.jpg");
             userService.save(user);
             return JsonResponse.success("注册成功！").setCode(200);
         }
