@@ -15,7 +15,7 @@ def get_lut():
 im = "result.png"
 im = cv2.imread(im, cv2.IMREAD_COLOR)
 # cv2.bitwise_not(im, im)
-# cv2.imwrite("result2.png", im)
+# cv2.imwrite("result.png", im)
 
 if im.ndim == 3:
     im = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)

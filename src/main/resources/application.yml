@@ -55,7 +55,7 @@ tx:
     smsEffectiveTime: 5
 
 # 需要修改的参数
-runtime-environment: test
+runtime-environment: test1
 python-exe-path: D:/anaconda3/python.exe
 #python-exe-path-server: D:/anaconda3/python.exe
 python-exe-path-server: /usr/bin/python3

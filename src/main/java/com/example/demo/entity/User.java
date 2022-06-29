@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author hjh
@@ -39,6 +39,8 @@ public class User extends Model<User> {
     private String phone;
 
     private String verity;
+
+    private String content;
 
     @Override
     protected Serializable pkVal() {

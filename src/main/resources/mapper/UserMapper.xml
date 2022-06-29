@@ -11,6 +11,7 @@
         <result column="avatar" property="avatar" />
         <result column="phone" property="phone" />
         <result column="verity" property="verity" />
+        <result column="content" property="content" />
     </resultMap>
 
 </mapper>
