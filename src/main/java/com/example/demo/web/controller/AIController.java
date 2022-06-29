@@ -142,6 +142,8 @@ public class AIController {
     @RequestMapping(value = "/terrainClassification", method = RequestMethod.POST)
     public JsonResponse terrainClassification(@RequestParam("file") String file,
                                               @RequestParam(value = "userId", required = false) Integer userId) throws Exception {
+        System.out.println(file);
+        System.out.println(userId);
         JsonResponse result = new JsonResponse();
         //如果为测试环境，返回示例图片
         //Assert.isTrue(temp.getUserId().equals(ShiroUtil.getProfile().getId()),"没有权限编辑");
