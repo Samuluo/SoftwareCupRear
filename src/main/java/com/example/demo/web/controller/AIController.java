@@ -58,7 +58,7 @@ public class AIController {
             result.setCode(200);
             result.setMessage("示例图片");
             result.setData(url);
-            if (userId != null) recordService.saveOne(userId, file1, file2, url, "changeDetection");
+            if (userId != null && !userId.equals("")) recordService.saveOne(userId, file1, file2, url, "changeDetection");
             return result;
         }
         //根据图片url下载图片
@@ -80,7 +80,7 @@ public class AIController {
         result.setMessage("预测成功");
         result.setData(url);
         //保存预测记录
-        if (userId != null) recordService.saveOne(userId, file1, file2, url, "changeDetection");
+        if (userId != null && !userId.equals("")) recordService.saveOne(userId, file1, file2, url, "changeDetection");
         return result;
     }
 
@@ -106,7 +106,7 @@ public class AIController {
             result.setCode(200);
             result.setMessage("示例图片");
             result.setData(url);
-            if (userId != null) recordService.saveOne(userId, file, null, url, "objectDetection");
+            if (userId != null && !userId.equals("")) recordService.saveOne(userId, file, null, url, "objectDetection");
             return result;
         }
         //根据图片url下载图片
@@ -125,7 +125,7 @@ public class AIController {
         result.setMessage("预测成功");
         result.setData(url);
         //保存预测记录
-        if (userId != null) recordService.saveOne(userId, file, null, url, "objectDetection");
+        if (userId != null && !userId.equals("")) recordService.saveOne(userId, file, null, url, "objectDetection");
         return result;
     }
 
@@ -153,7 +153,7 @@ public class AIController {
             result.setCode(200);
             result.setMessage("示例图片");
             result.setData(url);
-            if (userId != null) recordService.saveOne(userId, file, null, url, "terrainClassification");
+            if (userId != null && !userId.equals("")) recordService.saveOne(userId, file, null, url, "terrainClassification");
             return result;
         }
         //根据图片url下载图片
@@ -173,7 +173,7 @@ public class AIController {
         result.setMessage("预测成功");
         result.setData(url);
         //保存预测记录
-        if (userId != null) recordService.saveOne(userId, file, null, url, "terrainClassification");
+        if (userId != null && !userId.equals("")) recordService.saveOne(userId, file, null, url, "terrainClassification");
         return result;
     }
 
@@ -198,7 +198,7 @@ public class AIController {
             result.setCode(200);
             result.setMessage("示例图片");
             result.setData(url);
-            if (userId != null) recordService.saveOne(userId, file, null, url, "objectExtraction");
+            if (userId != null && !userId.equals("")) recordService.saveOne(userId, file, null, url, "objectExtraction");
             return result;
         }
         //根据图片url下载图片
@@ -218,7 +218,7 @@ public class AIController {
         result.setMessage("预测成功");
         result.setData(url);
         //保存预测记录
-        if (userId != null) recordService.saveOne(userId, file, null, url, "objectExtraction");
+        if (userId != null && !userId.equals("")) recordService.saveOne(userId, file, null, url, "objectExtraction");
         return result;
     }
 }

@@ -96,6 +96,8 @@ public class FileServiceImpl implements FileService {
         String[] split = file.split("/");
         String filename = split[split.length - 1];
         String filePath = savePath + "/" + filename;
+        //检测文件是否存在
+        if (new File(filePath).exists()) return filePath;
         //下载图片
         URL url = new URL(file);
         URLConnection con = url.openConnection();
