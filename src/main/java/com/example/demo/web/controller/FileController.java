@@ -35,7 +35,6 @@ public class FileController {
     private FileService fileService;
     @Autowired
     private UserService userService;
-
     /**
      * 七牛云文件上传,如果有userId,则把图片保存至用户图片库
      */
@@ -148,11 +147,9 @@ public class FileController {
     @RequestMapping(value = "/overlay", method = RequestMethod.POST)
     public JsonResponse overlay(@RequestParam(value = "file", required = false) String file,
                                   @RequestParam("result") String result,
-                                  @RequestParam("rgba") String rgba,
-                                  @RequestParam(value = "transparent", required = false) Integer transparent,
-                                  @RequestParam(value = "opacity", required = false) Double opacity) throws Exception {
+                                  @RequestParam("rgba") String rgba) throws Exception {
         JsonResponse jsonResponse = new JsonResponse();
-        Integer need_background = file == null || file.equals("") ? 0 : 1;
+        Integer need_background = file == null ? 0 : 1;
         rgba = rgba.substring(5, rgba.length() - 1);
         String[] split = rgba.split(",");
         Integer r = Integer.parseInt(split[0].trim());
@@ -165,7 +162,7 @@ public class FileController {
         String save_name = UUID.randomUUID() + ".png";
         String save_path = System.getProperty("user.dir") + "/static/transform/results/" + save_name;
         //调用python后端
-        String python_url = "http://127.0.0.1:8082/overlay?file=" + filePath + "&result=" + resultPath + "&result_path=" + save_path + "&need_background=" + need_background + "&a=" + a + "&r=" + r + "&g=" + g + "&b=" + b + "&transparent=" + transparent + "&opacity=" + opacity;
+        String python_url = "http://127.0.0.1:8082/overlay?file=" + filePath + "&result=" + resultPath + "&result_path=" + save_path + "&need_background=" + need_background + "&a=" + a + "&r=" + r + "&g=" + g + "&b=" + b;
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.exchange(python_url, HttpMethod.POST, null, String.class);
         //结果上传至云端，返回图片链接
@@ -190,7 +187,7 @@ public class FileController {
      */
     @RequestMapping(value = "/uploadAvatar/{id}", method = RequestMethod.POST)
     public JsonResponse uploadImg(@PathVariable("id") Integer  id,@RequestParam("file") MultipartFile image
-    ) {
+                                  ) {
         JsonResponse result = new JsonResponse();
         if (image.isEmpty()) {
             result.setCode(400);
