@@ -45,7 +45,9 @@ public class AccountController {
         if(user == null) {
             user = userService.getOne(new QueryWrapper<User>().eq("name",loginDto.getName()));
         }
-        Assert.notNull(user,"用户不存在");
+        if(user==null) {
+            return new JsonResponse().setMessage("用户不存在").setCode(500);
+        }
         //对象封装操作类
         if (!(SecureUtil.md5(user.getPassword())).equals(SecureUtil.md5(loginDto.getPassword()))){
             return JsonResponse.failure("密码不正确").setCode(409);

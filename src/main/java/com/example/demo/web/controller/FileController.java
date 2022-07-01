@@ -3,8 +3,10 @@ package com.example.demo.web.controller;
 import com.example.demo.common.JsonResponse;
 import com.example.demo.common.QiniuCloudUtil;
 import com.example.demo.entity.Library;
+import com.example.demo.entity.User;
 import com.example.demo.service.FileService;
 import com.example.demo.service.LibraryService;
+import com.example.demo.service.UserService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -31,7 +33,8 @@ public class FileController {
     private LibraryService libraryService;
     @Autowired
     private FileService fileService;
-
+    @Autowired
+    private UserService userService;
     /**
      * 七牛云文件上传,如果有userId,则把图片保存至用户图片库
      */
@@ -177,5 +180,40 @@ public class FileController {
     private static String suffix(String fileName) {
         int i = fileName.lastIndexOf('.');
         return i == -1 ? "" : fileName.substring(i);
+    }
+
+    /**
+     * 修改用户头像
+     */
+    @RequestMapping(value = "/uploadAvatar/{id}", method = RequestMethod.POST)
+    public JsonResponse uploadImg(@PathVariable("id") Integer  id,@RequestParam("file") MultipartFile image
+                                  ) {
+        JsonResponse result = new JsonResponse();
+        if (image.isEmpty()) {
+            result.setCode(400);
+            result.setMessage("文件为空，请重新上传");
+            return result;
+        }
+        try {
+            byte[] bytes = image.getBytes();
+            String imageName = UUID.randomUUID() + suffix(image.getOriginalFilename());
+            try {
+                //使用base64方式上传到七牛云
+                String url = QiniuCloudUtil.put64image(bytes, imageName);
+                result.setStatus(true);
+                result.setCode(200);
+                //把图片保存至用户图片库
+                User user = userService.getById(id).setAvatar(url);
+                userService.saveOrUpdate(user);
+                result.setMessage("操作成功");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            result.setCode(500);
+            result.setMessage("文件上传发生异常！");
+        } finally {
+            return result;
+        }
     }
 }
