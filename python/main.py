@@ -113,7 +113,7 @@ def object_detection():
     # 开始预测
     result = od_predictor.predict(img_file=file)
     # 保存结果
-    visualize_detection(image=file, result=result, threshold=0.5, save_dir=result_path, color=np.asarray([[255, 0, 0]]))
+    visualize_detection(image=file, result=result, threshold=0.5, save_dir=result_path)
     return "预测成功"
 
 

@@ -80,7 +80,7 @@ public class AIController {
         result.setMessage("预测成功");
         result.setData(url);
         //保存预测记录
-        if (userId != null && !userId.equals("")) recordService.saveOne(userId, file1, file2, url, "changeDetection");
+        if (userId != null && !userId.equals("")) recordService.saveOne(userId, file1, file2, url2, "changeDetection");
         return result;
     }
 
@@ -173,7 +173,7 @@ public class AIController {
         result.setMessage("预测成功");
         result.setData(url);
         //保存预测记录
-        if (userId != null && !userId.equals("")) recordService.saveOne(userId, file, null, url, "terrainClassification");
+        if (userId != null && !userId.equals("")) recordService.saveOne(userId, file, null, url2, "terrainClassification");
         return result;
     }
 
@@ -218,7 +218,7 @@ public class AIController {
         result.setMessage("预测成功");
         result.setData(url);
         //保存预测记录
-        if (userId != null && !userId.equals("")) recordService.saveOne(userId, file, null, url, "objectExtraction");
+        if (userId != null && !userId.equals("")) recordService.saveOne(userId, file, null, url2, "objectExtraction");
         return result;
     }
 }
