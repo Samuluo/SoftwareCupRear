@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import paddlers as pdrs
 from skimage.io import imsave
 import cv2
@@ -110,11 +110,15 @@ def object_detection():
     # 获取图片地址
     file = request.args["file"]
     result_path = request.args["result_path"]
+    # 定义阈值
+    threshold = 0.5
     # 开始预测
     result = od_predictor.predict(img_file=file)
     # 保存结果
-    visualize_detection(image=file, result=result, threshold=0.5, save_dir=result_path)
-    return "预测成功"
+    visualize_detection(image=file, result=result, threshold=threshold, save_dir=result_path)
+    # 返沪预测结果列表
+    result = [n for n in result if n['score'] >= threshold]
+    return jsonify(result)
 
 
 # 图片叠加

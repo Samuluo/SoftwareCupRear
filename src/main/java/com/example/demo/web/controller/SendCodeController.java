@@ -46,13 +46,13 @@ public class SendCodeController {
                 Vcode = code;
                 SmsParams smsParams = new SmsParams(po, code);
                 TxCloudSmsUtil send = new TxCloudSmsUtil();
-                //send.sendSms(smsParams);
+                send.sendSms(smsParams);
                 String codeKey = "VerifyCode"+memPhone+":code";
                 System.out.println(code);
                 Jedis jedis = new Jedis("127.0.0.1",6379);
                 jedis.setex(codeKey,300,code);
                 jedis.close();
-                return JsonResponse.success("发送成功！" + code);
+                return JsonResponse.success("发送成功！");
             }
         }
         return JsonResponse.failure("手机号未注册！");
@@ -76,13 +76,13 @@ public class SendCodeController {
         Vcode = code;
         SmsParams smsParams = new SmsParams(po, code);
         TxCloudSmsUtil send = new TxCloudSmsUtil();
-        //send.sendSms(smsParams);
+        send.sendSms(smsParams);
         String codeKey = "VerifyCode"+memPhone+":code";
         System.out.println(code);
         Jedis jedis = new Jedis("127.0.0.1",6379);
         jedis.setex(codeKey,300,code);
         jedis.close();
-        return JsonResponse.success("发送成功！" + code);
+        return JsonResponse.success("发送成功！");
 
     }
 
