@@ -122,7 +122,7 @@ public class FileServiceImpl implements FileService {
     }
 
     /**
-     * 结果图片转化
+     * 结果图片转化（已弃用）
      */
     @Override
     public void transform(String filePath, String result_path, String r, String g, String b) {

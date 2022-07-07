@@ -2,17 +2,17 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>测试</title>
+    <title>上传文件测试</title>
 </head>
 <body>
 <!--上传文件-->
-<form method="post" action="http://localhost:8088/file/uploadAvatar/1" enctype="multipart/form-data">
+<form method="post" action="http://127.0.0.1:8088/file/uploadImg?userId=2" enctype="multipart/form-data">
     <h3>上传文件</h3>
     <input type="file" name="file">
     <button type="submit">提交</button>
 </form>
-<!--"http://127.0.0.1:8088/file/uploadImgs?userId=2"-->
-<form method="post" action="http://bewcf.info:8088/file/uploadImgs?userId=2" enctype="multipart/form-data">
+<!--上传多张文件-->
+<form method="post" action="http://127.0.0.1:8088/file/uploadImgs?userId=2" enctype="multipart/form-data">
     <h3>上传多张文件</h3>
     <input type="file" name="file" class="form-control" multiple="multiple" >
     <button type="submit">提交</button>

@@ -120,7 +120,7 @@ public class FileController {
     }
 
     /**
-     * 结果图片转化：黑色部分变透明，白色部分变化颜色
+     * 结果图片转化：黑色部分变透明，白色部分变化颜色（已弃用）
      */
     @RequestMapping(value = "/transform", method = RequestMethod.POST)
     public JsonResponse transform(@RequestParam("file") String file,
