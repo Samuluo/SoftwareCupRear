@@ -109,7 +109,7 @@ public class TxCloudSmsUtil {
             req.setExtendCode(extendCode);
 
             /* 模板 ID: 必须填写已审核通过的模板 ID。模板ID可登录 [短信控制台] 查看 */
-            String templateId = "1430978";
+            String templateId = "1492008";
             req.setTemplateId(templateId);
 
             /* 下发手机号码，采用 E.164 标准，+[国家或地区码][手机号]
