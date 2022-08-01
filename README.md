@@ -1,7 +1,7 @@
 # 前言
 
 - 本项目为前后端分离项目，本仓库为后端地址，前端仓库请访问 [SoftwareCup(gitee.com)](https://gitee.com/zheng-cangping/software-cup)
-- 本项目已部署至线上，请访问 [WCFun遥感解译平台](http://csc.para-dox.top)
+- 本项目已部署至线上，请访问 [WCFun遥感解译平台](http://www.para-dox.top/) （测试账号：wcf，密码：123456）
 
 # 后端使用说明
 
