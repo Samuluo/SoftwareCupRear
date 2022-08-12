@@ -96,10 +96,14 @@ public class FileServiceImpl implements FileService {
         String[] split = file.split("/");
         String filename = split[split.length - 1];
         String filePath = savePath + "/" + filename;
-        File file1 = new File(filePath);
-        //检测文件夹是否存在
-        if (!file1.getParentFile().exists()) {
-            file1.getParentFile().mkdirs();
+        //检测文件夹(uploads、results)是否存在
+        File uploadsFolder = new File(savePath);
+        File resultsFolder = new File( System.getProperty("user.dir") + "/static/" + type + "/results");
+        if (!uploadsFolder.exists()) {
+            uploadsFolder.mkdirs();
+        }
+        if (!resultsFolder.exists()) {
+            resultsFolder.mkdirs();
         }
         //检测文件是否存在
         if (new File(filePath).exists()) return filePath;

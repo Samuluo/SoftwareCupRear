@@ -21,9 +21,9 @@ tc_predictor = pdrs.deploy.Predictor('model/terrainClassification', use_gpu=use_
 
 
 # 设置路由，装饰器绑定触发函数
-@app.route("/")
-def hello_world():
-    return "Hello, World!"
+# @app.route("/")
+# def hello_world():
+#     return "Hello, World!"
 
 
 # 变化检测
@@ -197,5 +197,5 @@ def overlay():
 
 if __name__ == "__main__":
     # debug=True 代码修改能运行时生效，app.run运行服务
-    # host默认127.0.0.1 端口默认5000
+    # host默认127.0.0.1 端口号为8082
     app.run(debug=False, port=8082)
