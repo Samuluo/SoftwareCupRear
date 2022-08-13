@@ -9,7 +9,7 @@ spring:
     name: ware-jwt-token
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://101.42.150.249:3306/china-software?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://101.42.150.249:3306/china-software?useUnicode=true&characterEncoding=utf8&serverTimezone=CST
     username: China-Software
     password: RRMcFYFsrGt768jW
 
