@@ -64,7 +64,13 @@ public class SendCodeController {
      */
     @RequestMapping(value = "/sendRegister", method= RequestMethod.GET)
     @ResponseBody
-    public JsonResponse getRegister(@RequestParam String memPhone){
+    public JsonResponse getRegister(@RequestParam String memPhone) {
+        List<User> list = userService.list();
+        for (User user : list) {
+            if (user.getPhone().equals(memPhone)) {
+                return JsonResponse.failure("手机号已注册！");
+            }
+        }
         System.out.println(memPhone);
         String p = memPhone.replace("+86","");
         p = p.replace("=","");
